@@ -27,6 +27,9 @@ export async function handleAuthRedirect() {
       const response = await apiRequest('POST', '/api/auth/verify', { idToken });
       const { user } = await response.json();
       
+      // Set flag to show auth success modal
+      localStorage.setItem('justSignedIn', 'true');
+      
       return { user, accessToken };
     }
     return null;

@@ -11,7 +11,7 @@ export function QuickStats() {
     refetchInterval: false,
   });
 
-  const completedQuizzes = quizzes?.quizzes?.filter((q: any) => q.completed) || [];
+  const completedQuizzes = data?.quizzes?.filter((q: any) => q.completed) || [];
   
   const stats = [
     {

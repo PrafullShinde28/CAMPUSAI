@@ -59,9 +59,11 @@ function PublicRoute({ children }: { children: React.ReactNode }) {
   }
 
   if (user) {
-    // Set flag to show auth success modal
-    localStorage.setItem('justSignedIn', 'true');
-    return <Redirect to="/?auth=success" />;
+    // Set flag to show auth success modal only if not already set
+    if (!localStorage.getItem('justSignedIn')) {
+      localStorage.setItem('justSignedIn', 'true');
+    }
+    return <Redirect to="/" />;
   }
 
   return <>{children}</>;

@@ -25,7 +25,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: any) => {
       setFirebaseUser(firebaseUser);
       
       if (firebaseUser) {
@@ -33,10 +33,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           const idToken = await firebaseUser.getIdToken();
           setToken(idToken);
           
+          // Verify with backend to get/create user
+          const response = await fetch('/api/auth/verify', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ idToken }),
+          });
+          
+          if (response.ok) {
+            const { user } = await response.json();
+            setUser(user);
+          }
+          
           // Check if this is a redirect from OAuth
           const authResult = await handleAuthRedirect();
           if (authResult) {
-            setUser(authResult.user);
+            // If redirect happened, update user but don't duplicate
+            if (!user) {
+              setUser(authResult.user);
+            }
           }
         } catch (error) {
           console.error("Auth error:", error);
