@@ -1,0 +1,583 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduPlatform - AI-Powered Learning Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                borderRadius: {
+                    lg: "var(--radius)",
+                    md: "calc(var(--radius) - 2px)",
+                    sm: "calc(var(--radius) - 4px)",
+                },
+                colors: {
+                    background: "var(--background)",
+                    foreground: "var(--foreground)",
+                    card: {
+                        DEFAULT: "var(--card)",
+                        foreground: "var(--card-foreground)",
+                    },
+                    popover: {
+                        DEFAULT: "var(--popover)",
+                        foreground: "var(--popover-foreground)",
+                    },
+                    primary: {
+                        DEFAULT: "var(--primary)",
+                        foreground: "var(--primary-foreground)",
+                    },
+                    secondary: {
+                        DEFAULT: "var(--secondary)",
+                        foreground: "var(--secondary-foreground)",
+                    },
+                    muted: {
+                        DEFAULT: "var(--muted)",
+                        foreground: "var(--muted-foreground)",
+                    },
+                    accent: {
+                        DEFAULT: "var(--accent)",
+                        foreground: "var(--accent-foreground)",
+                    },
+                    destructive: {
+                        DEFAULT: "var(--destructive)",
+                        foreground: "var(--destructive-foreground)",
+                    },
+                    border: "var(--border)",
+                    input: "var(--input)",
+                    ring: "var(--ring)",
+                    chart: {
+                        "1": "var(--chart-1)",
+                        "2": "var(--chart-2)",
+                        "3": "var(--chart-3)",
+                        "4": "var(--chart-4)",
+                        "5": "var(--chart-5)",
+                    }
+                },
+                fontFamily: {
+                    sans: ["Inter", "system-ui", "sans-serif"],
+                }
+            },
+        }
+    };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --background: hsl(210 40% 98%);
+            --foreground: hsl(222.2 84% 4.9%);
+            --card: hsl(0 0% 100%);
+            --card-foreground: hsl(222.2 84% 4.9%);
+            --popover: hsl(0 0% 100%);
+            --popover-foreground: hsl(222.2 84% 4.9%);
+            --primary: hsl(221.2 83.2% 53.3%);
+            --primary-foreground: hsl(210 40% 98%);
+            --secondary: hsl(142.1 76.2% 36.3%);
+            --secondary-foreground: hsl(210 40% 98%);
+            --muted: hsl(210 40% 96%);
+            --muted-foreground: hsl(215.4 16.3% 46.9%);
+            --accent: hsl(43.3 96.4% 56.3%);
+            --accent-foreground: hsl(222.2 84% 4.9%);
+            --destructive: hsl(0 84.2% 60.2%);
+            --destructive-foreground: hsl(210 40% 98%);
+            --border: hsl(214.3 31.8% 91.4%);
+            --input: hsl(214.3 31.8% 91.4%);
+            --ring: hsl(221.2 83.2% 53.3%);
+            --chart-1: hsl(12 76% 61%);
+            --chart-2: hsl(173 58% 39%);
+            --chart-3: hsl(197 37% 24%);
+            --chart-4: hsl(43 74% 66%);
+            --chart-5: hsl(27 87% 67%);
+            --radius: 0.5rem;
+        }
+        
+        .sidebar-transition {
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar-hidden {
+                transform: translateX(-100%);
+            }
+        }
+    </style>
+</head>
+<body class="bg-background text-foreground font-sans">
+    <!-- @COMPONENT: AppLayout -->
+    <div class="min-h-screen flex">
+        <!-- Sidebar -->
+        <!-- @COMPONENT: Sidebar -->
+        <aside id="sidebar" class="w-64 bg-card border-r border-border flex-shrink-0 sidebar-transition md:translate-x-0 sidebar-hidden md:sidebar-visible">
+            <div class="p-6">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 mb-8">
+                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-graduation-cap text-primary-foreground text-sm"></i>
+                    </div>
+                    <h1 class="text-xl font-bold text-foreground">EduPlatform</h1>
+                </div>
+                
+                <!-- Navigation -->
+                <nav class="space-y-2">
+                    <a href="#" class="flex items-center space-x-3 px-3 py-2 text-sm font-medium text-primary bg-primary/10 rounded-md">
+                        <i class="fas fa-home w-4"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="flex items-center space-x-3 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-md">
+                        <i class="fas fa-calendar-alt w-4"></i>
+                        <span>Study Planner</span>
+                    </a>
+                    <a href="#" class="flex items-center space-x-3 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-md">
+                        <i class="fas fa-brain w-4"></i>
+                        <span>Quiz Generator</span>
+                    </a>
+                    <a href="#" class="flex items-center space-x-3 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-md">
+                        <i class="fas fa-users w-4"></i>
+                        <span>Collaboration</span>
+                    </a>
+                    <a href="#" class="flex items-center space-x-3 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-md">
+                        <i class="fas fa-lightbulb w-4"></i>
+                        <span>Idea Marketplace</span>
+                    </a>
+                    <a href="#" class="flex items-center space-x-3 px-3 py-2 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-muted rounded-md">
+                        <i class="fas fa-robot w-4"></i>
+                        <span>Learning Buddy</span>
+                    </a>
+                </nav>
+                
+                <!-- User Profile -->
+                <div class="mt-8 pt-6 border-t border-border">
+                    <div class="flex items-center space-x-3 px-3 py-2">
+                        <!-- A professional headshot of a young student with a friendly smile -->
+                        <img src="https://pixabay.com/get/gd2e9ed5ec797e62e36aa30fa96cae3c35e3796468832072491f7dc15b65a4dff78486f255d97c32c1ae65821b4f486abae3bcfa15b7b66dedf082cc198234fbf_1280.jpg" alt="User profile" class="w-8 h-8 rounded-full" data-mock="true">
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-foreground truncate" data-bind="user.name" data-mock="true">Sarah Johnson</p>
+                            <p class="text-xs text-muted-foreground truncate" data-mock="true">Premium Student</p>
+                        </div>
+                        <button class="text-muted-foreground hover:text-foreground">
+                            <i class="fas fa-cog text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <!-- @END_COMPONENT: Sidebar -->
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col min-w-0">
+            <!-- Top Navigation -->
+            <!-- @COMPONENT: TopNavbar -->
+            <header class="bg-card border-b border-border px-6 py-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <button id="sidebar-toggle" class="md:hidden text-muted-foreground hover:text-foreground">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h2 class="text-lg font-semibold text-foreground">Dashboard</h2>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <!-- Search -->
+                        <div class="relative hidden sm:block">
+                            <input type="text" placeholder="Search..." class="w-64 px-3 py-2 text-sm bg-muted border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring" data-mock="true">
+                            <i class="fas fa-search absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground text-sm"></i>
+                        </div>
+                        
+                        <!-- Notifications -->
+                        <button class="relative text-muted-foreground hover:text-foreground">
+                            <i class="fas fa-bell"></i>
+                            <span class="absolute -top-1 -right-1 w-2 h-2 bg-destructive rounded-full" data-mock="true"></span>
+                        </button>
+                        
+                        <!-- Profile -->
+                        <button class="flex items-center space-x-2 text-muted-foreground hover:text-foreground">
+                            <!-- A professional headshot of a young student with a friendly smile -->
+                            <img src="https://pixabay.com/get/gd2e9ed5ec797e62e36aa30fa96cae3c35e3796468832072491f7dc15b65a4dff78486f255d97c32c1ae65821b4f486abae3bcfa15b7b66dedf082cc198234fbf_1280.jpg" alt="User profile" class="w-8 h-8 rounded-full" data-mock="true">
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            <!-- @END_COMPONENT: TopNavbar -->
+            
+            <!-- Main Dashboard Content -->
+            <!-- @COMPONENT: DashboardContent -->
+            <main class="flex-1 p-6 overflow-auto">
+                <!-- Welcome Section -->
+                <!-- @COMPONENT: WelcomeSection -->
+                <div class="mb-8">
+                    <div class="bg-gradient-to-r from-primary to-secondary rounded-xl p-6 text-primary-foreground">
+                        <h1 class="text-2xl font-bold mb-2" data-mock="true">Welcome back, Sarah! 🎓</h1>
+                        <p class="text-primary-foreground/90 mb-4" data-mock="true">You have 3 pending assignments and 2 study sessions scheduled for today.</p>
+                        <button class="bg-primary-foreground text-primary px-4 py-2 rounded-md font-medium hover:bg-primary-foreground/90 transition-colors" data-event="click:navigateToPlanner" data-mock="true">
+                            View Study Plan
+                        </button>
+                    </div>
+                </div>
+                <!-- @END_COMPONENT: WelcomeSection -->
+                
+                <!-- Quick Stats -->
+                <!-- @COMPONENT: QuickStats -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-card p-6 rounded-xl border border-border">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-muted-foreground">Study Streak</p>
+                                <p class="text-2xl font-bold text-foreground" data-bind="stats.studyStreak" data-mock="true">12 days</p>
+                            </div>
+                            <div class="w-12 h-12 bg-secondary/10 rounded-full flex items-center justify-center">
+                                <i class="fas fa-fire text-secondary"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-card p-6 rounded-xl border border-border">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-muted-foreground">Quizzes Completed</p>
+                                <p class="text-2xl font-bold text-foreground" data-bind="stats.quizzesCompleted" data-mock="true">47</p>
+                            </div>
+                            <div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                                <i class="fas fa-check-circle text-primary"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-card p-6 rounded-xl border border-border">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-muted-foreground">Study Points</p>
+                                <p class="text-2xl font-bold text-foreground" data-bind="stats.studyPoints" data-mock="true">2,847</p>
+                            </div>
+                            <div class="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center">
+                                <i class="fas fa-trophy text-accent"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-card p-6 rounded-xl border border-border">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-sm font-medium text-muted-foreground">Collaboration Score</p>
+                                <p class="text-2xl font-bold text-foreground" data-bind="stats.collaborationScore" data-mock="true">94%</p>
+                            </div>
+                            <div class="w-12 h-12 bg-chart-2/10 rounded-full flex items-center justify-center">
+                                <i class="fas fa-users text-chart-2"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_COMPONENT: QuickStats -->
+                
+                <!-- Main Content Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Left Column -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- AI Study Planner -->
+                        <!-- @COMPONENT: StudyPlannerCard -->
+                        <div class="bg-card p-6 rounded-xl border border-border">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-foreground">AI Study Planner</h3>
+                                <button class="text-primary hover:text-primary/80 text-sm font-medium" data-event="click:openStudyPlanner">
+                                    View All
+                                </button>
+                            </div>
+                            
+                            <div class="space-y-3">
+                                <!-- @MAP: todaysTasks.map(task => ( -->
+                                <div class="flex items-center space-x-3 p-3 bg-muted rounded-lg" data-mock="true">
+                                    <div class="w-2 h-2 bg-secondary rounded-full"></div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-foreground" data-bind="task.title">Review Calculus Chapter 5</p>
+                                        <p class="text-xs text-muted-foreground" data-bind="task.time">2:00 PM - 3:30 PM</p>
+                                    </div>
+                                    <span class="text-xs bg-secondary/10 text-secondary px-2 py-1 rounded" data-bind="task.difficulty">Medium</span>
+                                </div>
+                                
+                                <div class="flex items-center space-x-3 p-3 bg-muted rounded-lg" data-mock="true">
+                                    <div class="w-2 h-2 bg-accent rounded-full"></div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-foreground" data-bind="task.title">Physics Lab Report</p>
+                                        <p class="text-xs text-muted-foreground" data-bind="task.time">4:00 PM - 5:00 PM</p>
+                                    </div>
+                                    <span class="text-xs bg-destructive/10 text-destructive px-2 py-1 rounded" data-bind="task.difficulty">High</span>
+                                </div>
+                                
+                                <div class="flex items-center space-x-3 p-3 bg-muted rounded-lg" data-mock="true">
+                                    <div class="w-2 h-2 bg-primary rounded-full"></div>
+                                    <div class="flex-1">
+                                        <p class="text-sm font-medium text-foreground" data-bind="task.title">Group Study Session</p>
+                                        <p class="text-xs text-muted-foreground" data-bind="task.time">7:00 PM - 8:30 PM</p>
+                                    </div>
+                                    <span class="text-xs bg-primary/10 text-primary px-2 py-1 rounded" data-bind="task.difficulty">Low</span>
+                                </div>
+                                <!-- @END_MAP )) -->
+                            </div>
+                        </div>
+                        <!-- @END_COMPONENT: StudyPlannerCard -->
+                        
+                        <!-- Quiz Generator -->
+                        <!-- @COMPONENT: QuizGeneratorCard -->
+                        <div class="bg-card p-6 rounded-xl border border-border">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-foreground">AI Quiz Generator</h3>
+                                <button class="bg-primary text-primary-foreground px-4 py-2 rounded-md text-sm font-medium hover:bg-primary/90 transition-colors" data-event="click:generateQuiz">
+                                    Generate Quiz
+                                </button>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="p-4 bg-muted rounded-lg" data-mock="true">
+                                    <h4 class="font-medium text-foreground mb-2">Recent Quizzes</h4>
+                                    <div class="space-y-2">
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-muted-foreground">Calculus Quiz #3</span>
+                                            <span class="text-secondary font-medium">85%</span>
+                                        </div>
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-muted-foreground">Physics Concepts</span>
+                                            <span class="text-secondary font-medium">92%</span>
+                                        </div>
+                                        <div class="flex justify-between text-sm">
+                                            <span class="text-muted-foreground">Chemistry Basics</span>
+                                            <span class="text-accent font-medium">78%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-4 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg" data-mock="true">
+                                    <h4 class="font-medium text-foreground mb-2">AI Recommendations</h4>
+                                    <p class="text-sm text-muted-foreground mb-3">Based on your performance, focus on:</p>
+                                    <div class="space-y-2">
+                                        <span class="inline-block text-xs bg-primary/10 text-primary px-2 py-1 rounded">Differential Equations</span>
+                                        <span class="inline-block text-xs bg-secondary/10 text-secondary px-2 py-1 rounded ml-2">Wave Physics</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- @END_COMPONENT: QuizGeneratorCard -->
+                    </div>
+                    
+                    <!-- Right Column -->
+                    <div class="space-y-6">
+                        <!-- Collaboration Hub -->
+                        <!-- @COMPONENT: CollaborationCard -->
+                        <div class="bg-card p-6 rounded-xl border border-border">
+                            <h3 class="text-lg font-semibold text-foreground mb-4">Collaboration Hub</h3>
+                            
+                            <div class="space-y-4">
+                                <!-- Active Study Groups -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-muted-foreground mb-2">Active Study Groups</h4>
+                                    <div class="space-y-2" data-mock="true">
+                                        <div class="flex items-center space-x-3 p-2 hover:bg-muted rounded-lg cursor-pointer">
+                                            <div class="w-8 h-8 bg-primary/10 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-calculator text-primary text-xs"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <p class="text-sm font-medium text-foreground">Calculus Study Group</p>
+                                                <p class="text-xs text-muted-foreground">4 members online</p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="flex items-center space-x-3 p-2 hover:bg-muted rounded-lg cursor-pointer">
+                                            <div class="w-8 h-8 bg-secondary/10 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-atom text-secondary text-xs"></i>
+                                            </div>
+                                            <div class="flex-1">
+                                                <p class="text-sm font-medium text-foreground">Physics Lab Partners</p>
+                                                <p class="text-xs text-muted-foreground">2 members online</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <!-- Peer Matching -->
+                                <div>
+                                    <h4 class="text-sm font-medium text-muted-foreground mb-2">Suggested Matches</h4>
+                                    <div class="space-y-2" data-mock="true">
+                                        <div class="flex items-center space-x-3 p-2 hover:bg-muted rounded-lg cursor-pointer">
+                                            <!-- A professional headshot of a young male student studying -->
+                                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=32&h=32" alt="Student profile" class="w-8 h-8 rounded-full">
+                                            <div class="flex-1">
+                                                <p class="text-sm font-medium text-foreground">Alex Chen</p>
+                                                <p class="text-xs text-muted-foreground">95% compatibility</p>
+                                            </div>
+                                            <button class="text-xs bg-primary text-primary-foreground px-2 py-1 rounded">Connect</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- @END_COMPONENT: CollaborationCard -->
+                        
+                        <!-- Idea Marketplace -->
+                        <!-- @COMPONENT: IdeaMarketplaceCard -->
+                        <div class="bg-card p-6 rounded-xl border border-border">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-lg font-semibold text-foreground">Idea Marketplace</h3>
+                                <button class="text-primary hover:text-primary/80 text-sm font-medium" data-event="click:openMarketplace">
+                                    View All
+                                </button>
+                            </div>
+                            
+                            <div class="space-y-3" data-mock="true">
+                                <div class="p-3 bg-muted rounded-lg">
+                                    <h4 class="text-sm font-medium text-foreground mb-1">Visual Learning Cards</h4>
+                                    <p class="text-xs text-muted-foreground mb-2">Interactive flashcards with AR support</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs text-primary">📚 Education</span>
+                                        <div class="flex items-center space-x-1">
+                                            <i class="fas fa-thumbs-up text-secondary text-xs"></i>
+                                            <span class="text-xs text-muted-foreground">23</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="p-3 bg-muted rounded-lg">
+                                    <h4 class="text-sm font-medium text-foreground mb-1">Study Music Generator</h4>
+                                    <p class="text-xs text-muted-foreground mb-2">AI-powered focus music based on subjects</p>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-xs text-accent">🎵 Productivity</span>
+                                        <div class="flex items-center space-x-1">
+                                            <i class="fas fa-thumbs-up text-secondary text-xs"></i>
+                                            <span class="text-xs text-muted-foreground">18</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button class="w-full mt-4 bg-secondary text-secondary-foreground py-2 rounded-md text-sm font-medium hover:bg-secondary/90 transition-colors" data-event="click:submitIdea">
+                                Submit Your Idea
+                            </button>
+                        </div>
+                        <!-- @END_COMPONENT: IdeaMarketplaceCard -->
+                        
+                        <!-- Learning Buddy -->
+                        <!-- @COMPONENT: LearningBuddyCard -->
+                        <div class="bg-card p-6 rounded-xl border border-border">
+                            <h3 class="text-lg font-semibold text-foreground mb-4">Learning Buddy AI</h3>
+                            
+                            <div class="bg-gradient-to-r from-primary/5 to-secondary/5 p-4 rounded-lg mb-4" data-mock="true">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0">
+                                        <i class="fas fa-robot text-primary-foreground text-xs"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm text-foreground mb-2">Ready to help explain complex concepts! What would you like to learn about today?</p>
+                                        <div class="flex flex-wrap gap-2">
+                                            <button class="text-xs bg-primary/10 text-primary px-2 py-1 rounded hover:bg-primary/20" data-event="click:askAbout">Calculus</button>
+                                            <button class="text-xs bg-secondary/10 text-secondary px-2 py-1 rounded hover:bg-secondary/20" data-event="click:askAbout">Physics</button>
+                                            <button class="text-xs bg-accent/10 text-accent px-2 py-1 rounded hover:bg-accent/20" data-event="click:askAbout">Chemistry</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex space-x-2">
+                                <input type="text" placeholder="Ask me anything..." class="flex-1 px-3 py-2 text-sm bg-muted border border-input rounded-md focus:outline-none focus:ring-2 focus:ring-ring focus:border-ring" data-mock="true">
+                                <button class="bg-primary text-primary-foreground px-4 py-2 rounded-md hover:bg-primary/90 transition-colors" data-event="click:sendMessage">
+                                    <i class="fas fa-paper-plane text-sm"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- @END_COMPONENT: LearningBuddyCard -->
+                    </div>
+                </div>
+            </main>
+            <!-- @END_COMPONENT: DashboardContent -->
+        </div>
+    </div>
+    <!-- @END_COMPONENT: AppLayout -->
+    
+    <!-- Authentication Success Modal (Shows proper redirect flow) -->
+    <!-- @COMPONENT: AuthSuccessModal -->
+    <div id="authModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 hidden">
+        <div class="bg-card p-8 rounded-xl border border-border max-w-md w-full mx-4">
+            <div class="text-center">
+                <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-check-circle text-secondary text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-foreground mb-2">Welcome to EduPlatform!</h3>
+                <p class="text-muted-foreground mb-6">Authentication successful. You've been redirected to your personalized dashboard.</p>
+                
+                <!-- Google OAuth Integration Status -->
+                <div class="bg-muted p-4 rounded-lg mb-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <span class="text-sm font-medium text-foreground">Google Integration</span>
+                        <span class="text-xs bg-secondary/10 text-secondary px-2 py-1 rounded">Connected</span>
+                    </div>
+                    <div class="text-left space-y-2">
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-check text-secondary text-xs"></i>
+                            <span class="text-xs text-muted-foreground">Google Classroom API</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-check text-secondary text-xs"></i>
+                            <span class="text-xs text-muted-foreground">Firebase Authentication</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <i class="fas fa-check text-secondary text-xs"></i>
+                            <span class="text-xs text-muted-foreground">Real-time Notifications</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="closeAuthModal" class="w-full bg-primary text-primary-foreground py-2 rounded-md font-medium hover:bg-primary/90 transition-colors">
+                    Get Started
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: AuthSuccessModal -->
+    
+    <script>
+        // TODO: Implement business logic, API calls, and state management
+        (function() {
+            // Sidebar toggle functionality
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const sidebar = document.getElementById('sidebar');
+            
+            if (sidebarToggle && sidebar) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('sidebar-hidden');
+                });
+            }
+            
+            // Show authentication success modal on page load (simulating post-auth redirect)
+            const authModal = document.getElementById('authModal');
+            const closeAuthModal = document.getElementById('closeAuthModal');
+            
+            // Simulate showing the modal after successful authentication
+            setTimeout(() => {
+                if (authModal) {
+                    authModal.classList.remove('hidden');
+                }
+            }, 1000);
+            
+            if (closeAuthModal && authModal) {
+                closeAuthModal.addEventListener('click', function() {
+                    authModal.classList.add('hidden');
+                });
+            }
+            
+            // Close modal when clicking outside
+            if (authModal) {
+                authModal.addEventListener('click', function(e) {
+                    if (e.target === authModal) {
+                        authModal.classList.add('hidden');
+                    }
+                });
+            }
+            
+            // Simulate real-time notifications
+            setTimeout(() => {
+                // TODO: Implement Firebase Cloud Messaging integration
+                console.log('New notification: Study reminder for Calculus');
+            }, 5000);
+        })();
+    </script>
+</body>
+</html>

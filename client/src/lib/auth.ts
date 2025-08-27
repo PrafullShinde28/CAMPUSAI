@@ -1,3 +1,4 @@
+
 import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, signOut } from "firebase/auth";
 import { auth } from "./firebase";
 import { apiRequest } from "./queryClient";
